@@ -18,9 +18,9 @@
 #    - CONTAINER_NAME (name of the container image you would like to push up to your ACR)
 #    - SECRET_NAME (name of the secret associated with pulling your ACR image)
 #
-# 3. Choose the appropriate render engine for the bake step https://github.com/Azure/k8s-bake. The config below assumes kustomize.
-#    Set your kustomizationPath and kubectl-version to suit your configuration.
-#    - KUSTOMIZE_PATH (the path where your Kustomize manifests are located)
+# 3. Choose the appropriate render engine for the bake step https://github.com/Azure/k8s-bake. The config below assumes Kompose.
+#    Set your dockerComposeFile and kompose-version to suit your configuration.
+#    - DOCKER_COMPOSE_FILE_PATH (the path where your Kompose deployment manifest is located)
 #
 # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
 # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
@@ -45,7 +45,7 @@ env:
   RESOURCE_GROUP: "your-resource-group"
   CLUSTER_NAME: "your-cluster-name"
   SECRET_NAME: "your-secret-name"
-  KUSTOMIZE_PATH: "your-kustomize-path"
+  DOCKER_COMPOSE_FILE_PATH: "your-docker-compose-file-path"
 
 jobs:
   build:
@@ -87,10 +87,9 @@ jobs:
     - name: Configure deployment
       uses: azure/k8s-bake@v2.1
       with:
-        renderEngine: 'kustomize'
-        kustomizationPath: ${{ env.KUSTOMIZE_PATH }}
-        kubectl-version: latest
-      id: bake
+        renderEngine: 'kompose'
+        dockerComposeFile: ${{ env.DOCKER_COMPOSE_FILE_PATH }}
+        kompose-version: 'latest'    
 
     - name: Deploys application
       uses: Azure/k8s-deploy@v3.0
