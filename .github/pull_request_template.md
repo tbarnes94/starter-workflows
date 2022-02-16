@@ -1,5 +1,5 @@
 <!--
-IMPORTANT:
+IMPORTANTE:
 
 This repository contains configuration for what users see when they click on the `Actions` tab and the setup page for Code Scanning.
 
